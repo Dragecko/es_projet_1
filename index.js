@@ -1,15 +1,18 @@
 import readline from 'readline';
 import chalk from 'chalk';
 import { createFile } from './src/modules/create.js';
+import { listFiles } from './src/modules/listFiles.js';
+import { createSubFile } from './src/modules/createSub.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 // Titre de l'application
-console.log(chalk.cyan('///////////////////////////'));
-console.log(chalk.cyan('//') + chalk.yellow(' MindMap - CLI MAPPING ') + chalk.cyan('//'));
-console.log(chalk.cyan('///////////////////////////'));
+
+console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+console.log(chalk.cyan.bold('▰▰▰▰                ') + chalk.yellow('◀  MindMap - CLI MAPPING ▶') + chalk.cyan('                ▰▰▰▰'));
+console.log(chalk.cyan.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n'));
 
 // Fonction pour afficher le menu principal
 function mainMenu() {
@@ -17,9 +20,10 @@ function mainMenu() {
     console.log(chalk.blue('//') + chalk.green(' Option Principal:'));
     console.log(chalk.blue('//') + chalk.yellow(' 1.') +' Afficher la liste des fichiers');
     console.log(chalk.blue('//') + chalk.yellow(' 2.') +' Créé un neaveau fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 3.') +' Modifier un fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 4.') +' Supprimer un fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 5.') +' Lister un fichier');
+    console.log(chalk.blue('//') + chalk.yellow(' 3.') +' Créé un neaveau sous fichier');
+    console.log(chalk.blue('//') + chalk.yellow(' 4.') +' Modifier un fichier');
+    console.log(chalk.blue('//') + chalk.yellow(' 5.') +' Supprimer un fichier');
+    console.log(chalk.blue('//') + chalk.yellow(' 6.') +' Lister un fichier');
     console.log(chalk.blue('//'));
     console.log(chalk.blue('//') + chalk.red(' Stop') + ' Quitter');
 
@@ -27,7 +31,7 @@ function mainMenu() {
     rl.question(chalk.yellow('\nChoisissez une option (1-5) ou' + chalk.red(' Stop') +  ' pour quitter : '), async (answer) => {
         switch(answer) {
             case '1':
-                console.log(chalk.green('Vous avez choisi l\'option 1'));
+                await listFiles();
                 mainMenu();
                 break;
             case '2':
@@ -35,7 +39,13 @@ function mainMenu() {
                 mainMenu();
                 break;
             case '3':
-                console.log(chalk.red('Au revoir!'));
+                await createSubFile(rl);
+                mainMenu();
+                break;
+
+
+            case 'Stop':
+                console.log(chalk.red('Merci et à bientô, Des bisous :p'));
                 rl.close();
                 break;
             default:

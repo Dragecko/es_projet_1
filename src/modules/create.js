@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
+import { createSubFile } from './createSub.js';
 
 // Fichier pour gérer les opérations de création
 export const createFile = async (rl) => {
@@ -30,7 +31,7 @@ export const createFile = async (rl) => {
         });
 
         // Créer la structure JSON
-        const subFiles = {"First": "NoSubFiles"};
+        const subFiles = {"NoSubFiles": ""};
         const fileStructure = {
             metadata: {
                 title: fileName,
