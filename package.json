@@ -1,0 +1,17 @@
+{
+  "name": "es_projet_3",
+  "version": "1.0.0",
+  "description": "Projet d'entrée dans l'ecole",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
+}
