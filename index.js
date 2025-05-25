@@ -33,8 +33,8 @@ function mainMenu() {
     console.log(chalk.cyan.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
 
     // Demande à l'utilisateur de choisir une option    
-    rl.question(chalk.yellow('\nChoisissez une option (1-5) ou' + chalk.red(' Stop') +  ' pour quitter : '), async (answer) => {
-        switch(answer) {
+    rl.question(chalk.yellow('\nChoisissez une option (1-5) ou' + chalk.red(' Stop') +  ' pour quitter : '), async (bullshit) => {
+        switch(bullshit) {
             case '1':
                 await listFiles();
                 mainMenu();
