@@ -2,7 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 
-// Fonction pour afficher les sous-sous-fichiers
+// ------------------------------------------------------------
+// Fonction pour afficher les fichiers
+// ------------------------------------------------------------
 
 export const listFiles = async () => {
     try {
