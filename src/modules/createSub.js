@@ -113,13 +113,11 @@ export const createSubFile = async (rl) => {
                 });
             });
 
-            // Créer la structure du sous-fichier
+            // Créer la structure du sous-fichier sans metadata
             const subFileStructure = {
-                metadata: {
-                    title: subFileName,
-                    createdAt: new Date().toISOString(),
-                    lastModified: new Date().toISOString()
-                },
+                title: subFileName,
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
                 content: subFileContent,
                 subFiles: {}
             };
@@ -131,7 +129,8 @@ export const createSubFile = async (rl) => {
 
             // Ajouter le sous-fichier
             targetFile.subFiles[subFileName] = subFileStructure;
-            targetFile.metadata.lastModified = new Date().toISOString();
+            // Mettre à jour la date de modification du parent
+            targetFile.lastModified = new Date().toISOString();
 
             // Sauvegarder le fichier parent mis à jour
             await fs.writeFile(parentFilePath, JSON.stringify(parentFileData, null, 2));

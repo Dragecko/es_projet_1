@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "title": "Tart",
+    "createdAt": "2025-05-25T14:17:15.482Z",
+    "lastModified": "2025-05-25T14:17:15.482Z"
+  },
+  "content": "fhdagjfad",
+  "subFiles": {
+    "Bread": {
+      "title": "Bread",
+      "createdAt": "2025-05-25T14:17:42.535Z",
+      "lastModified": "2025-05-25T14:34:35.189Z",
+      "content": "sadasd",
+      "subFiles": {}
+    },
+    "Test": {
+      "title": "Test",
+      "createdAt": "2025-05-25T14:18:08.256Z",
+      "lastModified": "2025-05-25T14:18:08.256Z",
+      "content": "asdas",
+      "subFiles": {}
+    }
+  },
+  "lastModified": "2025-05-25T14:18:08.256Z"
+}

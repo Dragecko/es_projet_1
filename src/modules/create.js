@@ -49,7 +49,7 @@ export const createFile = async (rl) => {
                 lastModified: new Date().toISOString()
             },
             content: content,
-        };
+        }; 
 
         // Sauvegarder le fichier
         await fs.writeFile(filePath, JSON.stringify(fileStructure, null, 2));

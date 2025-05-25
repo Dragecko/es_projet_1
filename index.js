@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { createFile } from './src/modules/create.js';
 import { listFiles } from './src/modules/listFiles.js';
 import { createSubFile } from './src/modules/createSub.js';
+import { deleteFile } from './src/modules/delete.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -48,7 +49,10 @@ function mainMenu() {
                 break;
             
 
-                
+            case '5':
+                await deleteFile(rl);
+                mainMenu();
+                break;
 
             case 'Stop':
                 console.log(chalk.red('Merci et à bientô, Des bisous :p'));

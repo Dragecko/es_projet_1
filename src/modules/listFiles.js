@@ -34,18 +34,18 @@ export const listFiles = async () => {
                     console.log(chalk.green('   Sous-fichiers:'));
                     for (const [key, value] of Object.entries(jsonData.subFiles)) {
 
-                       console.log(chalk.green(`   └─ ${key}: ${value.content}`));
+                       console.log(chalk.green(`   └─ ${key}`));
                        console.log(chalk.gray(`       Créé le: ${new Date(value.createdAt).toLocaleString()}`));
                        console.log(chalk.gray(`       Dernière modification: ${new Date(value.lastModified).toLocaleString()}`));
+                       console.log(chalk.blue(`       Contenu: ${value.content}`));
                        
-                       // Afficher les sous-sous-fichiers
+                       // Afficher les sous-sous-fichiers s'ils existent
                        if (value.subFiles && Object.keys(value.subFiles).length > 0) {
                            for (const [subKey, subValue] of Object.entries(value.subFiles)) {
-                               if (subKey !== 'NoSubFiles') {
-                                   console.log(chalk.green(`       └─ ${subKey}: ${subValue.content}`));
-                                   console.log(chalk.gray(`          Créé le: ${new Date(subValue.createdAt).toLocaleString()}`));
-                                   console.log(chalk.gray(`          Dernière modification: ${new Date(subValue.lastModified).toLocaleString()}`));
-                               }
+                               console.log(chalk.green(`       └─ ${subKey}`));
+                               console.log(chalk.gray(`          Créé le: ${new Date(subValue.createdAt).toLocaleString()}`));
+                               console.log(chalk.gray(`          Dernière modification: ${new Date(subValue.lastModified).toLocaleString()}`));
+                               console.log(chalk.blue(`          Contenu: ${subValue.content}`));
                            }
                        }
                     }
