@@ -6,21 +6,6 @@
   },
   "content": "aadsadasd",
   "subFiles": {
-    "asdasfa": {
-      "title": "asdasfa",
-      "createdAt": "2025-05-25T12:24:29.668Z",
-      "lastModified": "2025-05-25T12:24:54.630Z",
-      "content": "sadafgdf",
-      "subFiles": {
-        "asdgfa": {
-          "title": "asdgfa",
-          "createdAt": "2025-05-25T12:24:54.630Z",
-          "lastModified": "2025-05-25T12:24:54.630Z",
-          "content": "asdafa",
-          "subFiles": {}
-        }
-      }
-    },
     "non": {
       "title": "non",
       "createdAt": "2025-05-25T12:25:14.923Z",
@@ -29,5 +14,5 @@
       "subFiles": {}
     }
   },
-  "lastModified": "2025-05-25T12:25:14.923Z"
+  "lastModified": "2025-05-25T14:48:35.337Z"
 }
