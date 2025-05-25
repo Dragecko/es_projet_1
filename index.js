@@ -10,22 +10,26 @@ const rl = readline.createInterface({
 });
 // Titre de l'application
 
-console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
-console.log(chalk.cyan.bold('▰▰▰▰                ') + chalk.yellow('◀  MindMap - CLI MAPPING ▶') + chalk.cyan('                ▰▰▰▰'));
-console.log(chalk.cyan.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n'));
 
 // Fonction pour afficher le menu principal
 function mainMenu() {
-    console.log(chalk.blue('//'));
-    console.log(chalk.blue('//') + chalk.green(' Option Principal:'));
-    console.log(chalk.blue('//') + chalk.yellow(' 1.') +' Afficher la liste des fichiers');
-    console.log(chalk.blue('//') + chalk.yellow(' 2.') +' Créé un neaveau fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 3.') +' Créé un neaveau sous fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 4.') +' Modifier un fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 5.') +' Supprimer un fichier');
-    console.log(chalk.blue('//') + chalk.yellow(' 6.') +' Lister un fichier');
-    console.log(chalk.blue('//'));
-    console.log(chalk.blue('//') + chalk.red(' Stop') + ' Quitter');
+    console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+    console.log(chalk.cyan.bold('▰▰▰▰                ') + chalk.yellow('◀  MindMap - CLI MAPPING ▶') + chalk.cyan('                ▰▰▰▰'));
+    console.log(chalk.cyan.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+    console.log(chalk.blue('▰▰                                                              ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.green('  ▶  Option Principal:') + chalk.blue('                                        ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  1.') +' Afficher la liste des fichiers'+ chalk.blue('                           ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  2.') +' Créé un neaveau fichier'+ chalk.blue('                                  ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  3.') +' Créé un neaveau sous fichier'+ chalk.blue('                             ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  4.') +' Modifier un fichier'+ chalk.blue('                                      ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  5.') +' Supprimer un fichier'+ chalk.blue('                                     ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.yellow('  6.') +' Lister un fichier'+ chalk.blue('                                        ▰▰'));
+    console.log(chalk.blue('▰▰                                                              ▰▰'));
+    console.log(chalk.blue('▰▰▰▰                                                          ▰▰▰▰'));
+    console.log(chalk.blue('▰▰                                                              ▰▰'));
+    console.log(chalk.blue('▰▰') + chalk.red('  Stop') + ' pour Quitter' + chalk.blue('                                           ▰▰'));
+    console.log(chalk.blue('▰▰                                                              ▰▰'));
+    console.log(chalk.cyan.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
 
     // Demande à l'utilisateur de choisir une option    
     rl.question(chalk.yellow('\nChoisissez une option (1-5) ou' + chalk.red(' Stop') +  ' pour quitter : '), async (answer) => {
@@ -42,7 +46,9 @@ function mainMenu() {
                 await createSubFile(rl);
                 mainMenu();
                 break;
+            
 
+                
 
             case 'Stop':
                 console.log(chalk.red('Merci et à bientô, Des bisous :p'));

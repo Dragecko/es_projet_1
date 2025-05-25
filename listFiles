@@ -2,7 +2,26 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 
-// Fonction pour afficher les sous-sous-fichiers
+// Fonction récursive pour afficher les sous-fichiers
+const displaySubFiles = (subFiles, level = 0) => {
+    if (!subFiles || Object.keys(subFiles).length === 0) return;
+    
+    const indent = '   '.repeat(level);
+    const treeChar = level === 0 ? '   └─' : '   ├─';
+    
+    for (const [key, value] of Object.entries(subFiles)) {
+        if (key !== 'NoSubFiles') {
+            console.log(chalk.green(`${indent}${treeChar} ${key}: ${value.content}`));
+            console.log(chalk.gray(`${indent}      Créé le: ${new Date(value.createdAt).toLocaleString()}`));
+            console.log(chalk.gray(`${indent}      Dernière modification: ${new Date(value.lastModified).toLocaleString()}`));
+            
+            // Afficher récursivement les sous-sous-fichiers
+            if (value.subFiles && Object.keys(value.subFiles).length > 0) {
+                displaySubFiles(value.subFiles, level + 1);
+            }
+        }
+    }
+};
 
 export const listFiles = async () => {
     try {
@@ -29,26 +48,10 @@ export const listFiles = async () => {
                 // Afficher le contenu
                 console.log(chalk.blue(`   Contenu: ${jsonData.content}`));
                 
-                // Afficher les sous-fichiers seulement s'il n'y a pas de NoSubFiles
+                // Afficher les sous-fichiers et sous-sous-fichiers
                 if (jsonData.subFiles && Object.keys(jsonData.subFiles).length > 0) {
                     console.log(chalk.green('   Sous-fichiers:'));
-                    for (const [key, value] of Object.entries(jsonData.subFiles)) {
-
-                       console.log(chalk.green(`   └─ ${key}: ${value.content}`));
-                       console.log(chalk.gray(`       Créé le: ${new Date(value.createdAt).toLocaleString()}`));
-                       console.log(chalk.gray(`       Dernière modification: ${new Date(value.lastModified).toLocaleString()}`));
-                       
-                       // Afficher les sous-sous-fichiers
-                       if (value.subFiles && Object.keys(value.subFiles).length > 0) {
-                           for (const [subKey, subValue] of Object.entries(value.subFiles)) {
-                               if (subKey !== 'NoSubFiles') {
-                                   console.log(chalk.green(`       └─ ${subKey}: ${subValue.content}`));
-                                   console.log(chalk.gray(`          Créé le: ${new Date(subValue.createdAt).toLocaleString()}`));
-                                   console.log(chalk.gray(`          Dernière modification: ${new Date(subValue.lastModified).toLocaleString()}`));
-                               }
-                           }
-                       }
-                    }
+                    displaySubFiles(jsonData.subFiles);
                 }
                 
                 console.log(chalk.gray('   ──────────────────────────────────────────────────────────────'));
