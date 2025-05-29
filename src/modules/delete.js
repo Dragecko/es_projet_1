@@ -3,6 +3,7 @@ import path from 'path';
 import chalk from 'chalk';
 import { listFiles } from './listFiles.js';
 import { FileNavigator } from '../utils/FileNavigator.js';
+import { display } from '../utils/fileDisplay.js';    
 
 // Fonction pour afficher le chemin actuel
 const displayCurrentPath = (path) => {
@@ -20,7 +21,7 @@ const displayOptions = (currentPath, hasSubFiles) => {
         console.log(chalk.gray('3. Supprimer un sous-fichier'));
     }
     console.log(chalk.gray('4. Supprimer le fichier actuel'));
-    console.log(chalk.gray('5. Quitter'));
+    console.log(chalk.red('5. Quitter'));
 };
 
 // Fonction pour supprimer un fichier et ses sous-fichiers
@@ -55,7 +56,7 @@ export const deleteFile = async (rl) => {
             const navigator = new FileNavigator(jsonData);
 
             while (true) {
-                displayCurrentPath(navigator.getCurrentPath());
+                display.frame(navigator.getCurrentPath());
                 navigator.displayCurrentContent();
                 displayOptions(navigator.getCurrentPath(), navigator.hasSubFiles());
 

@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 import { listFiles } from './listFiles.js';
+import { display } from '../utils/fileDisplay.js';
 
 // ------------------------------------------------------------------------------------------------
 //
@@ -10,17 +11,7 @@ import { listFiles } from './listFiles.js';
 //
 // ------------------------------------------------------------------------------------------------
 
-// Fonction pour afficher la structure des sous-fichiers
-const displaySubFiles = (subFiles) => {
-    for (const [key, value] of Object.entries(subFiles)) {
-        console.log(chalk.green(`   └─ ${key}`));
-        if (value.subFiles && Object.keys(value.subFiles).length > 0) { 
-            for (const [subKey] of Object.entries(value.subFiles)) {
-                console.log(chalk.green(`       └─ ${subKey}`));
-            }
-        }
-    }
-};
+
 
 // Fonction pour trouver le fichier parent dans la structure
 const findParentFile = (currentFile, targetTitle, currentPath = []) => {
@@ -60,17 +51,10 @@ export const createSubFile = async (rl) => {
 
             // Afficher les sous-fichiers existants
             if (parentFileData.subFiles && Object.keys(parentFileData.subFiles).length > 0) {
-                console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
-                console.log(chalk.yellow(`Actuelle dans: ${parentTitle}`));
-                console.log(chalk.gray.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n'));
-                
-                console.log(chalk.blue(`📁 ${parentTitle}`));
-                console.log(chalk.gray(`   Créé le: ${new Date(parentFileData.createdAt).toLocaleString()}`));
-                console.log(chalk.gray(`   Dernière modification: ${new Date(parentFileData.lastModified).toLocaleString()}`));
-                console.log(chalk.gray(`   Contenu: ${parentFileData.content}\n`));
-                
+                display.frame(parentTitle);
+                display.fileInfo(parentFileData);
                 console.log(chalk.yellow('   Sous-fichiers:'));
-                displaySubFiles(parentFileData.subFiles);
+                display.subFilesShort(parentFileData.subFiles);
             }
 
             // Demander si on veut créer un sous-fichier dans un sous-fichier existant
