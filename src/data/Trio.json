@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "title": "Trio",
+    "createdAt": "2025-05-27T11:26:03.493Z",
+    "lastModified": "2025-05-27T11:26:03.493Z"
+  },
+  "content": "Bread",
+  "subFiles": {
+    "Bread": {
+      "title": "Bread",
+      "createdAt": "2025-05-27T11:26:34.433Z",
+      "lastModified": "2025-05-29T10:17:22.236Z",
+      "content": "ffhaf",
+      "subFiles": {}
+    },
+    "Test": {
+      "title": "Test",
+      "createdAt": "2025-05-29T10:15:51.284Z",
+      "lastModified": "2025-05-29T10:16:07.602Z",
+      "content": "fads",
+      "subFiles": {
+        "Bread": {
+          "title": "Bread",
+          "createdAt": "2025-05-29T10:16:07.602Z",
+          "lastModified": "2025-05-29T10:16:07.602Z",
+          "content": "sdad",
+          "subFiles": {}
+        }
+      }
+    }
+  },
+  "lastModified": "2025-05-29T10:16:33.771Z"
+}

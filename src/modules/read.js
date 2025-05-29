@@ -38,7 +38,9 @@ export const readFile = async (rl) => {
 
             while (true) {
                 // Afficher le chemin actuel
-                console.log(chalk.cyan.bold('\nChemin actuel: ') + chalk.yellow(navigator.getCurrentPath()));
+                console.log(chalk.gray.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+                console.log(chalk.cyan.bold('🔗 Chemin actuel: ') + chalk.yellow(navigator.getCurrentPath()));
+                console.log(chalk.gray.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
                 
                 // Afficher le contenu actuel
                 navigator.displayCurrentContent();
