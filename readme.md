@@ -1,5 +1,8 @@
 # MindMap - CLI MAPPING
 
+# Temps approximatif du projet 
+## 16H 
+
 Une application en ligne de commande pour gérer et structurée vos fichiers de manière organisée.
 
 ## 📋 Description
@@ -131,9 +134,8 @@ src/
 
 ### Gestion des Dates
 - [ ] Problème de gestion des dates dans certains cas :
-  - [ ] Décalage possible avec le fuseau horraire
   - [x] Incohérence entre les dates affiché et stocké
-  - [ ] Format de date pas toujours consistant
+  - [ ] Bug de lecture 
 
 ### Interface Utilisateur
 - [ ] Manque de systématique dans les interactions utilisateur :
