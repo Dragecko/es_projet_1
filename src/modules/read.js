@@ -12,7 +12,7 @@ const displayOptions = (currentPath, hasSubFiles) => {
     if (currentPath !== 'racine') {
         console.log(chalk.gray('2. Remonter d\'un niveau'));
     }
-    console.log(chalk.gray('3. Quitter'));
+    console.log(chalk.red('3. Quitter'));
 };
 
 export const readFile = async (rl) => {
@@ -22,7 +22,7 @@ export const readFile = async (rl) => {
         
         // Demander le fichier à lire
         const fileTitle = await new Promise((resolve) => {
-            rl.question(chalk.blue('\nEntrez le titre du fichier à lire: '), (answer) => {
+            rl.question(chalk.blue('\nEntrer le titre du fichier à lire: '), (answer) => {
                 resolve(answer.trim());
             });
         });
@@ -42,6 +42,7 @@ export const readFile = async (rl) => {
                 console.log(chalk.cyan.bold('🔗 Chemin actuel: ') + chalk.yellow(navigator.getCurrentPath()));
                 console.log(chalk.gray.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
                 
+                
                 // Afficher le contenu actuel
                 navigator.displayCurrentContent();
                 
@@ -58,7 +59,7 @@ export const readFile = async (rl) => {
                     case '1': // Naviguer vers un sous-fichier
                         if (navigator.hasSubFiles()) {
                             const subFileTitle = await new Promise((resolve) => {
-                                rl.question(chalk.blue('Entrez le titre du sous-fichier: '), (answer) => {
+                                rl.question(chalk.blue('Entrer le titre du sous-fichier: '), (answer) => {
                                     resolve(answer.trim());
                                 });
                             });
@@ -88,11 +89,11 @@ export const readFile = async (rl) => {
             }
 
         } catch (error) {
-            console.log(chalk.red(`Le fichier "${fileTitle}.json" n'existe pas !`));
+            console.log(chalk.red(`Le fichié "${fileTitle}.json" n'existe pas !`));
             return;
         }
 
     } catch (error) {
-        console.error(chalk.red('Erreur lors de la lecture:', error.message));
+        console.error(chalk.red('Erreur lor de la lecture:', error.message));
     }
 }; 

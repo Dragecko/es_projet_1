@@ -71,8 +71,8 @@ export const createSubFile = async (rl) => {
 
             if (parentFileData.subFiles && Object.keys(parentFileData.subFiles).length > 0) {
                 const createInSubFile = await new Promise((resolve) => {
-                    rl.question(chalk.blue('\nVoulez-vous créer un sous-fichier dans un sous-fichier existant ? (oui/non): '), (answer) => {
-                        resolve(answer.toLowerCase() === 'oui');
+                    rl.question(chalk.blue('\nVoulez-vous créer un sous-fichier dans un sous-fichier existant ? (y/n): '), (answer) => {
+                        resolve(answer.toLowerCase() === 'y');
                     });
                 });
 
