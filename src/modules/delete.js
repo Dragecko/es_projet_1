@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 import { listFiles } from './listFiles.js';
+import { FileNavigator } from '../utils/FileNavigator.js';
 
 // Fonction pour afficher le chemin actuel
 const displayCurrentPath = (path) => {
@@ -51,28 +52,12 @@ export const deleteFile = async (rl) => {
         try {
             const content = await fs.readFile(filePath, 'utf-8');
             const jsonData = JSON.parse(content);
-            let currentPath = 'racine';
-            let currentData = jsonData;
-            let parentData = null;
-            let parentKey = null;
+            const navigator = new FileNavigator(jsonData);
 
             while (true) {
-                displayCurrentPath(currentPath);
-                
-                // Afficher le contenu actuel
-                console.log(chalk.yellow(`\n📁 ${currentData.metadata ? currentData.metadata.title : currentData.title}`));
-                console.log(chalk.gray(`   Créé le: ${new Date(currentData.createdAt).toLocaleString()}`));
-                console.log(chalk.gray(`   Dernière modification: ${new Date(currentData.lastModified).toLocaleString()}`));
-                console.log(chalk.blue(`   Contenu: ${currentData.content}`));
-
-                if (currentData.subFiles && Object.keys(currentData.subFiles).length > 0) {
-                    console.log(chalk.green('\n   Sous-fichiers:'));
-                    for (const [key, value] of Object.entries(currentData.subFiles)) {
-                        console.log(chalk.green(`   └─ ${key}`));
-                    }
-                }
-
-                displayOptions(currentPath, currentData.subFiles && Object.keys(currentData.subFiles).length > 0);
+                displayCurrentPath(navigator.getCurrentPath());
+                navigator.displayCurrentContent();
+                displayOptions(navigator.getCurrentPath(), navigator.hasSubFiles());
 
                 const choice = await new Promise((resolve) => {
                     rl.question(chalk.blue('\nVotre choix (1-5): '), (answer) => {
@@ -82,52 +67,39 @@ export const deleteFile = async (rl) => {
 
                 switch (choice) {
                     case '1': // Naviguer vers un sous-fichier
-                        if (currentData.subFiles && Object.keys(currentData.subFiles).length > 0) {
-                            const subFileTitle = await new Promise((resolve) => {
-                                rl.question(chalk.blue('Entrez le titre du sous-fichier: '), (answer) => {
-                                    resolve(answer.trim());
-                                });
+                        const subFileTitle = await new Promise((resolve) => {
+                            rl.question(chalk.blue('Entrez le titre du sous-fichier: '), (answer) => {
+                                resolve(answer.trim());
                             });
+                        });
 
-                            if (currentData.subFiles[subFileTitle]) {
-                                parentData = currentData;
-                                parentKey = subFileTitle;
-                                currentData = currentData.subFiles[subFileTitle];
-                                currentPath = `${currentPath} > ${subFileTitle}`;
-                            } else {
-                                console.log(chalk.red(`Le sous-fichier "${subFileTitle}" n'existe pas.`));
-                            }
-                        } else {
-                            console.log(chalk.yellow('Aucun sous-fichier disponible.'));
+                        const navResult = navigator.navigateToSubFile(subFileTitle);
+                        if (!navResult.success) {
+                            console.log(chalk.red(navResult.message));
                         }
                         break;
 
                     case '2': // Remonter d'un niveau
-                        if (currentPath !== 'racine') {
-                            currentData = parentData;
-                            currentPath = currentPath.split(' > ').slice(0, -1).join(' > ') || 'racine';
-                            parentData = null;
-                            parentKey = null;
-                        } else {
-                            console.log(chalk.yellow('Vous êtes déjà à la racine.'));
+                        const upResult = navigator.navigateUp();
+                        if (!upResult.success) {
+                            console.log(chalk.yellow(upResult.message));
                         }
                         break;
 
                     case '3': // Supprimer un sous-fichier
-                        if (currentData.subFiles && Object.keys(currentData.subFiles).length > 0) {
-                            const subFileTitle = await new Promise((resolve) => {
+                        if (navigator.hasSubFiles()) {
+                            const subFileToDelete = await new Promise((resolve) => {
                                 rl.question(chalk.blue('Entrez le titre du sous-fichier à supprimer: '), (answer) => {
                                     resolve(answer.trim());
                                 });
                             });
 
-                            if (currentData.subFiles[subFileTitle]) {
-                                delete currentData.subFiles[subFileTitle];
-                                currentData.lastModified = new Date().toISOString();
-                                await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
-                                console.log(chalk.green(`Le sous-fichier "${subFileTitle}" a été supprimé.`));
+                            const deleteResult = navigator.deleteSubFile(subFileToDelete);
+                            if (deleteResult.success) {
+                                await fs.writeFile(filePath, JSON.stringify(navigator.getCurrentData(), null, 2));
+                                console.log(chalk.green(`Le sous-fichier "${subFileToDelete}" a été supprimé.`));
                             } else {
-                                console.log(chalk.red(`Le sous-fichier "${subFileTitle}" n'existe pas.`));
+                                console.log(chalk.red(deleteResult.message));
                             }
                         } else {
                             console.log(chalk.yellow('Aucun sous-fichier à supprimer.'));
@@ -136,24 +108,25 @@ export const deleteFile = async (rl) => {
 
                     case '4': // Supprimer le fichier actuel
                         const confirm = await new Promise((resolve) => {
-                            rl.question(chalk.red(`Êtes-vous sûr de vouloir supprimer ${currentPath === 'racine' ? 'ce fichier' : 'ce sous-fichier'} ? (oui/non): `), (answer) => {
+                            rl.question(chalk.red(`Êtes-vous sûr de vouloir supprimer ${navigator.isAtRoot() ? 'ce fichier' : 'ce sous-fichier'} ? (oui/non): `), (answer) => {
                                 resolve(answer.toLowerCase() === 'oui');
                             });
                         });
 
                         if (confirm) {
-                            if (currentPath === 'racine') {
+                            if (navigator.isAtRoot()) {
                                 await deleteFileFromDisk(filePath);
                                 return;
                             } else {
+                                const { parentData, parentKey } = navigator.getParentInfo();
                                 delete parentData.subFiles[parentKey];
                                 parentData.lastModified = new Date().toISOString();
                                 await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
                                 console.log(chalk.green(`Le sous-fichier a été supprimé.`));
-                                currentData = parentData;
-                                currentPath = currentPath.split(' > ').slice(0, -1).join(' > ') || 'racine';
-                                parentData = null;
-                                parentKey = null;
+                                const upResult = navigator.navigateUp();
+                                if (!upResult.success) {
+                                    console.log(chalk.yellow(upResult.message));
+                                }
                             }
                         }
                         break;

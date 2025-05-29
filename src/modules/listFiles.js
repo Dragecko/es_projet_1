@@ -42,8 +42,9 @@ export const listFiles = async () => {
                        console.log(chalk.blue(`       Contenu: ${value.content}`));
                        
                        // Afficher les sous-sous-fichiers s'ils existent
-                       if (value.subFiles && Object.keys(value.subFiles).length > 0) {
+                       if (value.subFiles && Object.keys(value.subFiles).length > 0) { 
                            for (const [subKey, subValue] of Object.entries(value.subFiles)) {
+                            
                                console.log(chalk.green(`       └─ ${subKey}`));
                                console.log(chalk.gray(`          Créé le: ${new Date(subValue.createdAt).toLocaleString()}`));
                                console.log(chalk.gray(`          Dernière modification: ${new Date(subValue.lastModified).toLocaleString()}`));
@@ -53,7 +54,7 @@ export const listFiles = async () => {
                     }
                 }
                 
-                console.log(chalk.gray('   ──────────────────────────────────────────────────────────────'));
+                console.log(chalk.gray('   ──────────────────────────────────────────────────────────────')); 
             }
         }
     } catch (error) {

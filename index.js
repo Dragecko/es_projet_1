@@ -4,9 +4,11 @@ import { createFile } from './src/modules/create.js';
 import { listFiles } from './src/modules/listFiles.js';
 import { createSubFile } from './src/modules/createSub.js';
 import { deleteFile } from './src/modules/delete.js';
+import { readFile } from './src/modules/read.js';
+import { modifyFile } from './src/modules/modify.js';
 
 const rl = readline.createInterface({
-    input: process.stdin,
+    input: process.stdin,   
     output: process.stdout
 });
 // Titre de l'application
@@ -47,10 +49,18 @@ function mainMenu() {
                 await createSubFile(rl);
                 mainMenu();
                 break;
+            case '4':
+                await modifyFile(rl);
+                mainMenu();
+                break;
             
 
             case '5':
                 await deleteFile(rl);
+                mainMenu();
+                break;
+            case '6':
+                await readFile(rl);
                 mainMenu();
                 break;
 
