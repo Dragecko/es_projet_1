@@ -1,9 +1,8 @@
 # MindMap - CLI MAPPING
+Une application en ligne de commande pour gérer et structurée vos fichiers de manière organisée.
 
 ## Temps approximatif du projet - 16H 
 Je me suis beaucoup appliqué pour montrer le maximum de mes capacités. Je me suis aidé de mes autres projets pour la realisation de celui-ci.
-
-Une application en ligne de commande pour gérer et structurée vos fichiers de manière organisée.
 
 ## 📋 Description
 
@@ -40,6 +39,7 @@ Lancez l'application :
 ```bash
 npm start
 ```
+Petit plus `start.bat` Permet de lancer le projet directement 
 
 ### Menu Principal
 ```
@@ -84,14 +84,14 @@ Les fichiers sont stockés au format JSON avec la structure suivante :
 
 ```
 src/
-├── data/           # Dossier contenant les fichiers JSON
-├── modules/        # Modules de l'application
-│   ├── create.js   # Gestion de la création de fichiers
-│   ├── modify.js   # Modification des fichiers
-│   ├── delete.js   # Supression des fichiers
-│   ├── read.js     # Lecture des fichiers
-│   └── listFiles.js # Affichage de la structure
-└── utils/          # Utilitaires
+├── data/                 # Dossier contenant les fichiers JSON
+├── modules/              # Modules de l'application
+│   ├── create.js         # Gestion de la création de fichiers
+│   ├── modify.js         # Modification des fichiers
+│   ├── delete.js         # Supression des fichiers
+│   ├── read.js           # Lecture des fichiers
+│   └── listFiles.js      # Affichage de la structure
+└── utils/                # Utilitaires
     ├── FileNavigator.js  # Navigation dans les fichiers
     └── FileModifier.js   # Modification des fichiers
 ```
@@ -101,7 +101,7 @@ src/
 ### Gestion des Fichiers
 - Création de fichiers avec métadonnées
 - Modification du contenu et des titres
-- Support de sous-fichiers illimités
+- Support de sous-fichiers 
 - Navigation intuitive dans l'arboressence
 - Supression récursive des fichiers
 
@@ -153,7 +153,6 @@ src/
 - [ ] Gestion de la mémoire :
   - [ ] Chargement complet de l'arboressence en mémoire
   - [x] Possible ralentissement avec beaucoup de sous-fichiers
-  - [ ] Pas de nettoyage automatique des fichiers temporaire
 
 ### Interface
 - [ ] Problèmes d'affichage :
@@ -164,24 +163,8 @@ src/
 ### Limitations Techniques
 - [ ] Contraintes techniques :
   - [ ] Pas de support pour les fichiers voluminneux
-  - [x] Absence de recherche dans le contenu
-  - [ ] Pas de gestion des conflits en cas d'accès simultané
 
-> Note: Les cases cochées [x] indiquent les problèmes en cours de résolution ou partiellement résolus.
-
-## 📝 Licence
-
-ISC
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-- Signaler des bugs
-- Proposer des améliorations
-- Soumettre des pull requests
 
 ## 📚 Documentation Additionelle
-
-Pour plus d'informations sur l'utilisation et le développement :
 https://github.com/CPNV-ES/2025_Code_Entretien
 

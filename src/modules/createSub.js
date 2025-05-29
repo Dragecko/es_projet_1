@@ -11,12 +11,13 @@ import { listFiles } from './listFiles.js';
 // ------------------------------------------------------------------------------------------------
 
 // Fonction pour afficher la structure des sous-fichiers
-const displaySubFiles = (subFiles, level = 0) => {
-    const indent = '  '.repeat(level);
+const displaySubFiles = (subFiles) => {
     for (const [key, value] of Object.entries(subFiles)) {
-        console.log(chalk.blue(`${indent}- ${key}`));
-        if (value.subFiles && Object.keys(value.subFiles).length > 0) {
-            displaySubFiles(value.subFiles, level + 1);
+        console.log(chalk.green(`   └─ ${key}`));
+        if (value.subFiles && Object.keys(value.subFiles).length > 0) { 
+            for (const [subKey] of Object.entries(value.subFiles)) {
+                console.log(chalk.green(`       └─ ${subKey}`));
+            }
         }
     }
 };
@@ -59,10 +60,17 @@ export const createSubFile = async (rl) => {
 
             // Afficher les sous-fichiers existants
             if (parentFileData.subFiles && Object.keys(parentFileData.subFiles).length > 0) {
-                console.log(chalk.yellow('\nSous-fichiers existants :'));
-                for (const [key, value] of Object.entries(parentFileData.subFiles)) {
-                    console.log(chalk.blue(`- ${key}`));
-                }
+                console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+                console.log(chalk.yellow(`Actuelle dans: ${parentTitle}`));
+                console.log(chalk.gray.bold('▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n'));
+                
+                console.log(chalk.blue(`📁 ${parentTitle}`));
+                console.log(chalk.gray(`   Créé le: ${new Date(parentFileData.createdAt).toLocaleString()}`));
+                console.log(chalk.gray(`   Dernière modification: ${new Date(parentFileData.lastModified).toLocaleString()}`));
+                console.log(chalk.gray(`   Contenu: ${parentFileData.content}\n`));
+                
+                console.log(chalk.yellow('   Sous-fichiers:'));
+                displaySubFiles(parentFileData.subFiles);
             }
 
             // Demander si on veut créer un sous-fichier dans un sous-fichier existant
@@ -78,7 +86,7 @@ export const createSubFile = async (rl) => {
 
                 if (createInSubFile) {
                     const subFileTitle = await new Promise((resolve) => {
-                        rl.question(chalk.blue('Entrez le titre du sous-fichier parent: '), (answer) => {
+                        rl.question(chalk.blue('\nEntrez le titre du sous-fichier parent: '), (answer) => {
                             resolve(answer.trim());
                         });
                     });
@@ -87,7 +95,7 @@ export const createSubFile = async (rl) => {
                         targetFile = parentFileData.subFiles[subFileTitle];
                         targetPath = [subFileTitle];
                     } else {
-                        console.log(chalk.red(`Aucun sous-fichier avec le titre "${subFileTitle}" n'a été trouvé !`));
+                        console.log(chalk.red(`\nErreur: Aucun sous-fichier avec le titre "${subFileTitle}" n'a été trouvé !`));
                         return;
                     }
                 }
@@ -95,14 +103,14 @@ export const createSubFile = async (rl) => {
 
             // Demander le nom du nouveau sous-fichier
             const subFileName = await new Promise((resolve) => {
-                rl.question(chalk.blue('\nEntrez le nom du sous-fichier: '), (answer) => {
+                rl.question(chalk.yellow('\nEntrez le nom du sous-fichier: '), (answer) => {
                     resolve(answer.trim());
                 });
             });
 
             // Vérifier si le sous-fichier existe déjà
             if (targetFile.subFiles && targetFile.subFiles[subFileName]) {
-                console.log(chalk.red(`Le sous-fichier "${subFileName}" existe déjà dans ce fichier !`));
+                console.log(chalk.red(`\nErreur: Le sous-fichier "${subFileName}" existe déjà dans ce fichier !`));
                 return;
             }
 
@@ -135,6 +143,7 @@ export const createSubFile = async (rl) => {
             // Sauvegarder le fichier parent mis à jour
             await fs.writeFile(parentFilePath, JSON.stringify(parentFileData, null, 2));
 
+            console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
             console.log(chalk.green(`\nSous-fichier créé avec succès !`));
             console.log(chalk.blue(`Titre: ${subFileName}`));
             if (targetPath.length > 0) {
@@ -142,6 +151,7 @@ export const createSubFile = async (rl) => {
             } else {
                 console.log(chalk.blue(`Fichier parent: ${parentTitle}`));
             }
+            console.log(chalk.gray.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
 
         } catch (error) {
             console.log(chalk.red(`Le fichier "${parentTitle}.json" n'existe pas !`));
