@@ -1,5 +1,20 @@
 import chalk from 'chalk';
 
+
+// ------------------------------------------------------------
+// classe pour afficher les fichiers
+//
+// Utilisation:
+// const display = new FileDisplay();
+// display.subFilesShort(subFiles);
+// display.fileInfo(file);
+// display.frame(title);
+//
+// P.S. Utilisation de la fonction d'autocomplétion pour les commentaires
+// ------------------------------------------------------------
+
+
+
 export const display = {
 
 

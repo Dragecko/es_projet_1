@@ -1,6 +1,19 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+
+// ------------------------------------------------------------ 
+// classe pour modifier les fichiers
+//
+// Utilisation:
+// const fileModifier = new FileModifier(jsonData, filePath);
+// fileModifier.updateContent(newContent);
+// fileModifier.updateTitle(newTitle);
+// fileModifier.saveChanges();
+//
+// P.S. Utilisation de la fonction d'autocomplétion pour les commentaires
+// ------------------------------------------------------------
+
 export class FileModifier {
     constructor(jsonData, filePath) {
         this.data = jsonData;
