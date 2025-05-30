@@ -1,7 +1,12 @@
 import chalk from 'chalk';
 
 export const display = {
+
+
+    // ------------------------------------------------------------
     // Affiche les sous-fichiers de manière récursive avec un niveau de profondeur limité
+    // ------------------------------------------------------------
+
     subFilesShort: (subFiles) => {
         for (const [key, value] of Object.entries(subFiles)) {
             console.log(chalk.green(`   └─ ${key}`));
@@ -13,7 +18,11 @@ export const display = {
         }
     },
 
+
+    // ------------------------------------------------------------
     // Affiche les informations principales d'un fichier
+    // ------------------------------------------------------------
+
     fileInfo: (file) => {
         console.log(chalk.blue(`📁 ${file.metadata ? file.metadata.title : file.title}`));
         console.log(chalk.gray(`   Créé le: ${new Date(file.createdAt).toLocaleString()}`));
@@ -21,7 +30,11 @@ export const display = {
         console.log(chalk.gray(`   Contenu: ${file.content}\n`));
     },
 
+
+    // ------------------------------------------------------------
     // Affiche le cadre décoratif
+    // ------------------------------------------------------------
+
     frame: (title) => {
         console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
         console.log(chalk.yellow(`Actuelle dans: ${title}`));

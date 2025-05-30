@@ -24,7 +24,7 @@ const displayOptions = (currentPath, hasSubFiles) => {
     console.log(chalk.red('5. Quitter'));
 };
 
-// Fonction pour supprimer un fichier et ses sous-fichiers
+// Fonction pour supprimer un fichier complet du disque
 const deleteFileFromDisk = async (filePath) => {
     try {
         await fs.unlink(filePath);
@@ -32,6 +32,25 @@ const deleteFileFromDisk = async (filePath) => {
     } catch (error) {
         console.error(chalk.red(`Erreur lors de la suppression du fichier: ${error.message}`));
     }
+};
+
+// Fonction pour supprimer un sous-fichier spécifique
+const deleteSubFileAtPath = (data, pathParts) => {
+    if (pathParts.length === 1) {
+        // Supprimer directement dans le niveau actuel
+        if (data.subFiles && data.subFiles[pathParts[0]]) {
+            delete data.subFiles[pathParts[0]];
+            return true;
+        }
+        return false;
+    }
+
+    // Naviguer dans l'arborescence
+    const currentPart = pathParts[0];
+    if (data.subFiles && data.subFiles[currentPart]) {
+        return deleteSubFileAtPath(data.subFiles[currentPart], pathParts.slice(1));
+    }
+    return false;
 };
 
 export const deleteFile = async (rl) => {
@@ -68,15 +87,19 @@ export const deleteFile = async (rl) => {
 
                 switch (choice) {
                     case '1': // Naviguer vers un sous-fichier
-                        const subFileTitle = await new Promise((resolve) => {
-                            rl.question(chalk.blue('Entrez le titre du sous-fichier: '), (answer) => {
-                                resolve(answer.trim());
+                        if (navigator.hasSubFiles()) {
+                            const subFileTitle = await new Promise((resolve) => {
+                                rl.question(chalk.blue('Entrez le titre du sous-fichier: '), (answer) => {
+                                    resolve(answer.trim());
+                                });
                             });
-                        });
 
-                        const navResult = navigator.navigateToSubFile(subFileTitle);
-                        if (!navResult.success) {
-                            console.log(chalk.red(navResult.message));
+                            const navResult = navigator.navigateToSubFile(subFileTitle);
+                            if (!navResult.success) {
+                                console.log(chalk.red(navResult.message));
+                            }
+                        } else {
+                            console.log(chalk.yellow('Aucun sous-fichier disponible.'));
                         }
                         break;
 
@@ -95,12 +118,16 @@ export const deleteFile = async (rl) => {
                                 });
                             });
 
-                            const deleteResult = navigator.deleteSubFile(subFileToDelete);
-                            if (deleteResult.success) {
-                                await fs.writeFile(filePath, JSON.stringify(navigator.getCurrentData(), null, 2));
+                            // Obtenir le chemin complet du sous-fichier à supprimer
+                            const currentPath = navigator.getCurrentPath().split(' > ');
+                            currentPath.push(subFileToDelete);
+                            
+                            // Supprimer le sous-fichier
+                            if (deleteSubFileAtPath(jsonData, currentPath.slice(1))) {
+                                await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
                                 console.log(chalk.green(`Le sous-fichier "${subFileToDelete}" a été supprimé.`));
                             } else {
-                                console.log(chalk.red(deleteResult.message));
+                                console.log(chalk.red(`Erreur: Impossible de trouver le sous-fichier "${subFileToDelete}"`));
                             }
                         } else {
                             console.log(chalk.yellow('Aucun sous-fichier à supprimer.'));
@@ -116,17 +143,19 @@ export const deleteFile = async (rl) => {
 
                         if (confirm) {
                             if (navigator.isAtRoot()) {
+                                // Supprimer le fichier complet
                                 await deleteFileFromDisk(filePath);
                                 return;
                             } else {
-                                const { parentData, parentKey } = navigator.getParentInfo();
-                                delete parentData.subFiles[parentKey];
-                                parentData.lastModified = new Date().toISOString();
-                                await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
-                                console.log(chalk.green(`Le sous-fichier a été supprimé.`));
-                                const upResult = navigator.navigateUp();
-                                if (!upResult.success) {
-                                    console.log(chalk.yellow(upResult.message));
+                                // Supprimer le sous-fichier actuel
+                                const currentPath = navigator.getCurrentPath().split(' > ');
+                                if (deleteSubFileAtPath(jsonData, currentPath.slice(1))) {
+                                    await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
+                                    console.log(chalk.green(`Le sous-fichier actuel a été supprimé.`));
+                                    // Remonter d'un niveau après la suppression
+                                    navigator.navigateUp();
+                                } else {
+                                    console.log(chalk.red('Erreur: Impossible de supprimer le sous-fichier actuel.'));
                                 }
                             }
                         }

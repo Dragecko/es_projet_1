@@ -48,7 +48,6 @@ export class FileModifier {
             } catch {
                 // Le fichier n'existe pas, on peut procéder
                 this.data.metadata.title = newTitle;
-                this.data.title = newTitle; // Pour la cohérence
                 await fs.rename(this.filePath, newFilePath);
                 this.filePath = newFilePath;
             }
@@ -69,7 +68,6 @@ export class FileModifier {
         const newDate = new Date().toISOString();
         if (isRoot) {
             this.data.metadata.lastModified = newDate;
-            this.data.lastModified = newDate;
         } else {
             this.data.lastModified = newDate;
         }

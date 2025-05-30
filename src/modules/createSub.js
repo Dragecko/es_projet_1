@@ -15,7 +15,8 @@ import { display } from '../utils/fileDisplay.js';
 
 // Fonction pour trouver le fichier parent dans la structure
 const findParentFile = (currentFile, targetTitle, currentPath = []) => {
-    if (currentFile.metadata.title === targetTitle) {
+    const fileTitle = currentFile.metadata ? currentFile.metadata.title : currentFile.title;
+    if (fileTitle === targetTitle) {
         return { file: currentFile, path: currentPath };
     }
 
@@ -122,12 +123,16 @@ export const createSubFile = async (rl) => {
             // Ajouter le sous-fichier
             targetFile.subFiles[subFileName] = subFileStructure;
             // Mettre à jour la date de modification du parent
-            targetFile.lastModified = new Date().toISOString();
+            if (targetFile.metadata) {
+                targetFile.metadata.lastModified = new Date().toISOString();
+            } else {
+                targetFile.lastModified = new Date().toISOString();
+            }
 
             // Sauvegarder le fichier parent mis à jour
             await fs.writeFile(parentFilePath, JSON.stringify(parentFileData, null, 2));
 
-            console.log(chalk.cyan.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+            console.log(chalk.cyan.bold('\▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
             console.log(chalk.green(`\nSous-fichier créé avec succès !`));
             console.log(chalk.blue(`Titre: ${subFileName}`));
             if (targetPath.length > 0) {
@@ -135,7 +140,7 @@ export const createSubFile = async (rl) => {
             } else {
                 console.log(chalk.blue(`Fichier parent: ${parentTitle}`));
             }
-            console.log(chalk.gray.bold('\n▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
+            console.log(chalk.gray.bold('\▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰'));
 
         } catch (error) {
             console.log(chalk.red(`Le fichier "${parentTitle}.json" n'existe pas !`));

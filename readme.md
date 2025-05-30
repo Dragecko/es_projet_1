@@ -1,7 +1,7 @@
 # MindMap - CLI MAPPING
 Une application en ligne de commande pour gérer et structurée vos fichiers de manière organisée.
 
-## Temps approximatif du projet - 16H 
+## Temps approximatif du projet - 17H 
 Je me suis beaucoup appliqué pour montrer le maximum de mes capacités. Je me suis aidé de mes autres projets pour la realisation de celui-ci.
 
 ## 📋 Description
