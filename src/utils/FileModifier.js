@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-
 // ------------------------------------------------------------ 
 // classe pour modifier les fichiers
 //

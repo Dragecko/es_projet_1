@@ -13,8 +13,6 @@ import chalk from 'chalk';
 // P.S. Utilisation de la fonction d'autocomplétion pour les commentaires
 // ------------------------------------------------------------
 
-
-
 export const display = {
 
 
