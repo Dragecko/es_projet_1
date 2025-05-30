@@ -164,7 +164,10 @@ src/
 - [ ] Contraintes techniques :
   - [ ] Pas de support pour les fichiers voluminneux
 
-
+Ce qui aurait pu être mieux fait
+- Mettre en place un système indépendant pour la gestion de la création, modification et suppression des fichiers JSON.
+  Avoir des fonctions prédéfinies réutilisables aurait permis de simplement appeler ces fonctions au moment voulu, ce qui aurait grandement simplifié toute la gestion de la logique liée aux fichiers JSON.
+  
 ## 📚 Documentation Additionelle
 https://github.com/CPNV-ES/2025_Code_Entretien
 
